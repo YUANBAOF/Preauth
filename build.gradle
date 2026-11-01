@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+group = 'com.example.premiumauth'
+version = '1.2.0'
+base { archivesName = 'premiumauth-forge-1.20.1' }
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    runs {
+        server {
+            workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods { premiumauth { source sourceSets.main } }
+        }
+    }
+}
+
+repositories {
+    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    add sourceSets.main, 'premiumauth.refmap.json'
+    config 'premiumauth.mixins.json'
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+jar {
+    manifest { attributes('MixinConfigs': 'premiumauth.mixins.json') }
+    finalizedBy 'reobfJar'
+}

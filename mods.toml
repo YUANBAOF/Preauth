@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+
+[[mods]]
+modId="premiumauth"
+version="1.2.0"
+displayName="Premium Auth"
+description='''Offline-mode server: premium players auto login, offline players register/login. 离线服务器：正版自动登录，盗版注册登录。'''
+
+[[dependencies.premiumauth]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.premiumauth]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"
